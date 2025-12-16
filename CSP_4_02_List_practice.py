@@ -1,5 +1,6 @@
 
 def bookends(li: list):
+
     """
     Given a list of numbers remove the first and last elements from the list and
     return a new list of those two elements.
@@ -9,65 +10,104 @@ def bookends(li: list):
     :param list:
     :return:
     """
-
-
-
+    ends = []
+    count = 0
+    while count < 2:
+        if count == 0:
+            first_val = li.pop(0)
+            ends.append(first_val)
+        else:
+            last_val = li.pop(-1)
+            ends.append(last_val)
+        count += 1
+    return ends
+nums = [60,5,8,3,5]
+result = bookends(nums)
+print("Removed:", result)
+print("Remaining:", nums)
 def inOrder(li : list):
-    """
-    Given a list of numbers return true if the list is in ascending order.
-    :param list:
-    :return:
-    """
-
-
-
+    """Given a list of numbers return True if the list is in ascending order."""
+    for i in range(len(li) - 1):
+        # If any element is bigger than the one after it,
+        # the list is NOT in ascending order.
+        if li[i] > li[i + 1]:
+            return False
+    return True
+print(inOrder([3, 1, 4]))
 def find(li: list, target : int):
-    """
-    Given a list of numbers and a target value return the index location of the
-    target value within the list.
-    If the target value is not in the list return -1
-    If multiple of the target value exist within the list you may return either
-    index.
-    You are not alowed to use the built-in index method from python.
-    Example list [1,3,5,7,9] target = 3 returned value would be 1 because 3 can be
-    found at the first index.
-    Example list [3, 7, 8, 1, 0, 1, 12] target = 1 a return of either 3 or 5 would
-    be valid.
-    Example list [1,3,5,6,9] target 7 returns -1 because 7 is not within the list.
-    :param list:
-    :param target:
-    :return:
-    """
-
-
+    for i in range(len(li)):      # loop through all indexes
+        if li[i] == target:       # check if value matches
+            return i              # return the index immediately
+    return -1                     # not found
+print(find([1, 3, 5, 7, 9], 3))
 def removeLowest(li):
     """
-    Given a list of numbers remove the lowest element from the list. You may assume the list is at least 1 element long.
-    If there are multiple of the lowest number you just need to remove 1.
-    Example list [3,6,7,2,12] would become [3,6,7,12]
-    :param list:
-    :return:
-    """
+      Removes ONE instance of the lowest number in the list.
+      """
+
+    # assume first value is the lowest
+    lowest = li[0]
+
+    # loop to find the lowest value
+    for i in range(len(li)):
+        if li[i] < lowest:
+            lowest = li[i]
+
+    # remove one occurrence of the lowest value
+    li.remove(lowest)
 
 
+# --- PRINT TEST ---
+nums = [3, 6, 7, 2, 12]
+removeLowest(nums)
+print(nums)  # [3, 6, 7, 12]
 def keepOrder(li: list, value):
     """
-    Given a list of numbers that is in order and a value. Place the value into the
-    list such that the list is still in order.
-    Example list=[1,3,5,6] value =4 the resulting list would be [1,3,4,5,6]
-    :param list:
-    :param value:
-    :return:
+    Inserts value into the correct position so the list stays in ascending order.
     """
 
+    for i in range(len(li)):
+        if value < li[i]:
+            li.insert(i, value)
+            return
 
+    # if value is greater than all elements, add to the end
+    li.append(value)
+
+
+# --- PRINT TEST ---
+arr = [1, 3, 5, 6]
+keepOrder(arr, 4)
+print(arr)   # [1, 3, 4, 5, 6]
 def merge(l1:list, l2:list):
     """
-    Given two lists that are in order. produce a new list that is the two lists merged together and in order.
-    Make sure to now modify either of the original lists.
-    Example l1 = [1,3,5] l2 = [2,4,6,8] -> [1,2,3,4,5,6,8]
-    :param l1:
-    :param l2:
-    :return:
-    """
-    
+       Merges two sorted lists into a new sorted list.
+       Original lists are not modified.
+       """
+
+    merged = []
+    i = 0
+    j = 0
+
+    while i < len(l1) and j < len(l2):
+        if l1[i] < l2[j]:
+            merged.append(l1[i])
+            i += 1
+        else:
+            merged.append(l2[j])
+            j += 1
+
+    # add remaining elements
+    while i < len(l1):
+        merged.append(l1[i])
+        i += 1
+
+    while j < len(l2):
+        merged.append(l2[j])
+        j += 1
+
+    return merged
+
+# --- PRINT TEST ---
+print(merge([1, 3, 5], [2, 4, 6, 8]))
+# [1, 2, 3, 4, 5, 6, 8]
